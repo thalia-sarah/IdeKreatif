@@ -26,3 +26,23 @@ if(isset($_POST['simpan'])){
     header('Location: kategori.php');
     exit();
 }
+
+//Proses menghapus kategori
+if(isset($_POST['delete'])){
+    //Mengambil ID kategori dari poaramater URL
+    $catID = $_POST['catID'];
+
+    //Query untuk menghapus kategori berdasarkan ID
+    $exac = mysqli_query($conn, "DELETE FROM categories WHERE category_id='$catID'");
+
+    //Menyimpan notifikasi keberhasilan atau kegagalan ke dalam session
+    if($exac){
+        $_SESSION['notification']=[
+            'type' => 'danger',
+            'message' => 'Gagal menghapus kategori: '. mysqli_error($conn)
+        ];
+    }
+
+    header('Location: kategori.php');
+    exit();
+}
