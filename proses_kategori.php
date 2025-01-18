@@ -10,15 +10,18 @@ session_start();
 if(isset($_POST['simpan'])){
     //Mengambil data nama kategori dari form
     $category_name = $_POST['category_name'];
-
-    //Query untuk menambahkan berhasil atau gagal ke dalam session
+    //Query untuk menambahkan data kategori ke dalam database
     $query = "INSERT INTO categories (category_name) VALUES ('$category_name')";
     $exec = mysqli_query($conn, $query);
-
     //Menyimpan notifikasi berhasil atau gagal ke dalam session
     if($exec){
         $_SESSION['notification'] = [
             'type' => 'primary', //Jenis notifikasi(contoh primary untuk keberhasilan)
+            'message' => 'Kategori berhasil ditambahkan!'
+        ];
+    }else{
+        $_SESSION['notification'] = [
+            'type' => 'danger',
             'message' => 'Gagal menambahkan kategori: ' . mysqli_error($conn)
         ];
     }
@@ -34,9 +37,13 @@ if(isset($_POST['delete'])){
 
     //Query untuk menghapus kategori berdasarkan ID
     $exec = mysqli_query($conn, "DELETE FROM categories WHERE category_id='$catID'");
-
     //Menyimpan notifikasi keberhasilan atau kegagalan ke dalam session
     if($exec){
+        $_SESSION['notification'] = [
+            'type' => 'primary', //Jenis notifikasi(contoh primary untuk keberhasilan)
+            'message' => 'Kategori berhasil dihapus!'
+        ];
+    }else{
         $_SESSION['notification']=[
             'type' => 'danger',
             'message' => 'Gagal menghapus kategori: '. mysqli_error($conn)
@@ -54,11 +61,15 @@ if(isset($_POST['update'])){
     $category_name=$_POST['category_name'];
 
     //Query untuk memperbarui data kategori berdasarkan ID
-    $query = "UPDATE categories SET category_name ='$category_name' WHERE category_id='catID'";
+    $query = "UPDATE categories SET category_name ='$category_name' WHERE category_id='$catID'";
     $exec= mysqli_query($conn, $query);
-
     //Menyimpan notifikasi keberhasilan atau kegagalan ke dalam session
     if($exec){
+        $_SESSION['notification'] = [
+            'type' => 'primary', //Jenis notifikasi(contoh primary untuk keberhasilan)
+            'message' => 'Kategori berhasil diupdate!'
+        ];
+    }else{
         $_SESSION['notification']=[
             'type' => 'danger',
             'message' => 'Gagal memberparui kategori: '. mysqli_error($conn)

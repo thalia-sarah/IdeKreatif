@@ -7,11 +7,11 @@ include '.includes/toast_notification.php';
 
 <div class="container-xxl flex-grow-1 container-p-y">
     <!-- Tabel data kategori -->
-     <div class="card">
+    <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4>Data Kategori</h4>
             <!-- Tombol untuk menambah kategori baru -->
-             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategory">Tambah Kategori</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategory">Tambah Kategori</button>
         </div>
         <div class="card-body">
             <div class="table-responsive text-nowrap">
@@ -27,7 +27,7 @@ include '.includes/toast_notification.php';
                         <!-- Mengambil data kategori dari database -->
                         <?php
                         $index = 1;
-                        $query = "SELECT*FROM categories";
+                        $query = "SELECT * FROM categories";
                         $exec = mysqli_query($conn, $query);
                         while ($category = mysqli_fetch_assoc($exec)) :
                         ?>
@@ -38,40 +38,16 @@ include '.includes/toast_notification.php';
                             <td>
                                 <!-- Dropdown untuk opsi edit dan Delete -->
                                 <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toogle="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a href="#" class="dropdown-item" data-bs-toogle="modal" data-bs-target="#editCategory_<?= $category['category_id']; ?>"><i class="bc bc-edit-alt me-2"></i>Edit</a>
+                                        <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editCategory_<?= $category['category_id']; ?>"><i class="bx bx-edit-alt me-2"></i>Edit</a>
                                         <a href="#" class="dropdown-item" data-bs-toggle="modal"data-bs-target="#deleteCategory_<?= $category['category_id']; ?>"><i class="bx bx-trash me-2"></i>Delete</a>
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <!-- Modal untuk Tambah Data Kategori -->
-                         <div class="modal fade" id="addCategory" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-title">
-                                        <h5 class="modal-title">Tambah Data</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="proses_kategori.php" method="POST">
-                                            <div>
-                                                <label for="namaKategori" class="form-label">Nama Kategori</label>
-                                                <!-- Input untuk nama kategori baru -->
-                                                <input type="text" class="form-control" name="category_name" required>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
-                                                <button type="submit" name"simpan" class="btn btn-primary">Simpan</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                         </div>
                         <!-- Modal untuk Hapus Data Kategori -->
                         <div class="modal fade" id="deleteCategory_<?= $category['category_id']; ?>" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -84,7 +60,7 @@ include '.includes/toast_notification.php';
                                         <form action="proses_kategori.php" method="POST">
                                             <div>
                                                 <p>Tindakan ini tidak bisa dibatalkan.</p>
-                                                <input type="hidden" name="catID" value="<?+ $category['category_id']; ?>">
+                                                <input type="hidden" name="catID" value="<?= $category['category_id']; ?>">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
@@ -96,7 +72,7 @@ include '.includes/toast_notification.php';
                             </div>
                         </div>
                         <!-- Modal untuk Update Data Kategori -->
-                        <div class="modal fade" id="deleteCategory_<?= $category['category_id']; ?>" tabindex="-1" aria-hidden="true">
+                        <div id="editCategory_<?= $category['category_id']; ?>" class="modal fade" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -106,7 +82,7 @@ include '.includes/toast_notification.php';
                                     <div class="modal-body">
                                         <form action="proses_kategori.php" method="POST">
                                             <!-- input tersembunyi untuk menyimpan update kategori -->
-                                                <input type="hidden" name="catID" value="<?+ $category['category_id']; ?>">
+                                                <input type="hidden" name="catID" value="<?= $category['category_id']; ?>">
                                             <div class="form-group">
                                                 <label>Nama Kategori</label>
                                                 <!-- Input untuk nama kategori -->
@@ -121,12 +97,36 @@ include '.includes/toast_notification.php';
                                 </div>
                             </div>
                         </div>
-
+                        
                         <?php endwhile; ?>
                     </tbody>
                 </table>
             </div>
         </div>
-     </div>
-</div>
-<?php include '.includes/footer.php'; ?>
+    </div>
+    </div>
+    <?php include '.includes/footer.php'; ?>
+    <!-- Modal untuk Tambah Data Kategori -->
+    <div class="modal fade" id="addCategory" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="proses_kategori.php" method="POST">
+                        <div>
+                            <label for="namaKategori" class="form-label">Nama Kategori</label>
+                            <!-- Input untuk nama kategori baru -->
+                            <input type="text" class="form-control" name="category_name" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
