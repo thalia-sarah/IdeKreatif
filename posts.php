@@ -17,7 +17,7 @@ include '.includes/header.php';
                         </div>
                         <!-- Input data untuk menngunggah gambar -->
                         <div class="mb-3">
-                            <label for="formFile" class="foem-label">Unggah Gambar</label>
+                            <label for="formFile" class="form-label">Unggah Gambar</label>
                             <input class="form-control" type="file" name="image" accept="image/*">
                         </div>
                         <!-- Dropdown untuk memilih kategori -->
